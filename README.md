@@ -19,22 +19,22 @@ Personally, I did not encounter any issues when obtaining a newer version.
 ## building from source
 Get the sources, either download them directly or use this command with the version you need  
 ```
-	curl -o linux-source.tar.gz https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.0.9.tar.gz
+curl -o linux-source.tar.gz https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.0.9.tar.gz
 ```
 
 Unpack the kernel source  
 ```
-	tar xvf linux-source.tar.gz
+tar xvf linux-source.tar.gz
 ```
 
 Move to the perf tool directory
 ```
-	cd linux-6.0.9/tools/perf
+cd linux-6.0.9/tools/perf
 ```
 
 Build perf  
 ```
-	make
+make
 ```
 
 You may come across several build warnings, which are actually quite helpful. They indicate which
@@ -42,8 +42,8 @@ features are disabled and which packages you need to enable them. Simply install
 packages and run make again.  
 These are some common dependencies that may be missing:
 ```
-	sudo apt-get install libdw-dev libunwind8-dev systemtap-sdt-dev \
-	libaudit-dev libslang2-dev binutils-dev liblzma-dev
+sudo apt-get install libdw-dev libunwind8-dev systemtap-sdt-dev \
+libaudit-dev libslang2-dev binutils-dev liblzma-dev
 ```
 
 # Linux perf without sudo access
@@ -52,8 +52,8 @@ If you are using linux perf for the first time, you may encounter an error relat
 certain kernel settings, which are also required for our custom script to work. Running the following
 commands should enable linux perf without requiring root access.
 ```
-	sudo sh -c 'echo kernel.perf_event_paranoid=1 > /etc/sysctl.d/local.conf 
-	sudo sh -c 'echo kernel.kptr_restrict=0 > /etc/sysctl.d/local.conf 
+sudo sh -c 'echo kernel.perf_event_paranoid=1 > /etc/sysctl.d/local.conf 
+sudo sh -c 'echo kernel.kptr_restrict=0 > /etc/sysctl.d/local.conf 
 ```
 After running these commands you should restart sysctl with this command
 `sudo sysctl -p /etc/sysctl.conf` or reboot your machine.
@@ -74,7 +74,7 @@ such as "chromium-dbg" on Linux Mint. Package names may vary depending on the di
 commonly include terms like "-dbgsym" or "-dbg".
 
 # Script usage
-## lt_perf_chrome.py
+### lt_perf_chrome.py
 This script launches Chromium with the required terminal switches and V8 flags, and then executes
 `perf record` with the render process ID of the opened Chrome tab. Once Chrome is open, you can
 navigate to the desired website for profiling and then either close the browser or press Ctrl + C
@@ -92,20 +92,20 @@ it may interfere with the correct identification of the Chrome render process ID
 
 ### Examples
 ```
-	./LT_perf_chrome.py --url=https://webvm.io/ --perf-dir=perf_dir
+./LT_perf_chrome.py --url=https://webvm.io/ --perf-dir=perf_dir
 ```
 ```
-	./LT_perf_chrome.py --url=https://webvm.io/ --perf=/home/builds/linux-stable/tools/perf/perf --wait
+./LT_perf_chrome.py --url=https://webvm.io/ --perf=/home/builds/linux-stable/tools/perf/perf --wait
 ```
 ```
-	./LT_perf_chrome.py --url=https://webvm.io/ --perf-options="--call-graph=fp" --js-flags="--perf-prof-annotate-wasm"
+./LT_perf_chrome.py --url=https://webvm.io/ --perf-options="--call-graph=fp" --js-flags="--perf-prof-annotate-wasm"
 ```
 
 # Cheatsheets
-## perf_cheatsheet.md
+### [perf_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_cheatsheet.md)
 A collection of linux perf commands with examples and explanations.
 
-## perf_chrome_cheatsheet.md
+### [perf_chrome_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_chrome_cheatsheet.md)
 If you prefer to profile Chromium without using a script, this cheatsheet provides a step-by-step
 guide on how to profile Chromium using linux perf.
 

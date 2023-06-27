@@ -13,10 +13,10 @@ Make sure to run these steps in a new folder since proflining in Chrome will gen
 
 ## Launch Chrome with the needed flags
 ```
-	chromium \
-		--user-data-dir=`mktemp -d` \
-		--no-sandbox --incognito --enable-benchmarking \
-		--js-flags='--perf-prof --no-write-protect-code-memory --interpreted-frames-native-stack'
+chromium \
+	--user-data-dir=`mktemp -d` \
+	--no-sandbox --incognito --enable-benchmarking \
+	--js-flags='--perf-prof --no-write-protect-code-memory --interpreted-frames-native-stack'
 ```
 **--user-data-dir="mktemp -d"**  
 Is used to create a fresh profile, use this to avoid caches and potential side-effects from
@@ -47,7 +47,7 @@ perf based on the address alone.
 
 ## Perf record with chrome
 ```
-	perf record --call-graph=fp --freq=max --clockid=mono -p RENDER_PID
+perf record --call-graph=fp --freq=max --clockid=mono -p RENDER_PID
 ```
 **--call-graph=fp**  
 Enables call-graph recording, for both kernel space and user space.
@@ -68,7 +68,7 @@ task manager.
 
 ## Post-processing with perf inject
 ```
-	perf inject --jit --input=perf.data --output=perf.data.jitted
+perf inject --jit --input=perf.data --output=perf.data.jitted
 ```
 **--jit**  
 Process jitdump files by injecting the mmap records corresponding to jitted functions. This option
