@@ -16,7 +16,7 @@ The safest approach is to obtain a kernel version that matches your current kern
 opt for a newer version if desired.  
 Personally, I did not encounter any issues when obtaining a newer version.
 
-## building from source
+## Building linux perf from source
 Get the sources, either download them directly or use this command with the version you need  
 ```
 curl -o linux-source.tar.gz https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.0.9.tar.gz
