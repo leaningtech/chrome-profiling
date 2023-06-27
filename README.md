@@ -1,6 +1,42 @@
 
-# Requirements
+# Script usage
+### Requirements
 - linux-perf version 5 or higher (previous versions don't have jit support).
+- Be able to run linux perf wihout sudo, you can find instructions on that further down.
+### lt_perf_chrome.py
+This script launches Chromium with the required terminal switches and V8 flags, and then executes
+`perf record` with the render process ID of the opened Chrome tab. Once Chrome is open, you can
+navigate to the desired website for profiling and then either close the browser or press Ctrl + C
+in the terminal. The profiling data will be saved in the specified folder (the script creates it if
+it doesn't exist), or in the current directory if no `--perf-dir=` parameter is provided.
+Additionally, the script performs post-processing of the data using `perf inject`. You also have the
+option to include additional V8, Chromium, and perf flags by using the parameters `--chrome-options=""`,
+`--js-flags=""`, and `--perf-options=""`. 
+
+If you haven't used linux perf before, running this script might take some time as perf will
+download debug information.  
+
+IMPORTANT: Please avoid opening additional tabs in the Chrome instance launched by this script, as
+it may interfere with the correct identification of the Chrome render process ID.  
+
+### Examples
+```
+./LT_perf_chrome.py --url=https://webvm.io/ --perf-dir=perf_dir
+```
+```
+./LT_perf_chrome.py --url=https://webvm.io/ --perf=/home/builds/linux-stable/tools/perf/perf --wait
+```
+```
+./LT_perf_chrome.py --url=https://webvm.io/ --perf-options="--call-graph=fp" --js-flags="--perf-prof-annotate-wasm"
+```
+
+# Cheatsheets
+### [perf_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_cheatsheet.md)
+A collection of linux perf commands with examples and explanations.
+
+### [perf_chrome_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_chrome_cheatsheet.md)
+If you prefer to profile Chromium without using a script, this cheatsheet provides a step-by-step
+guide on how to profile Chromium using linux perf.
 
 # Linux perf source build
 A Linux perf source build is not necessary, but it can make things a little easier by ensuring that
@@ -72,42 +108,6 @@ some debug symbol information. In many cases, additional debug symbol packages a
 resolve these profiling reports. For instance, Chromium has a separate package for debug symbols,
 such as "chromium-dbg" on Linux Mint. Package names may vary depending on the distribution, but they
 commonly include terms like "-dbgsym" or "-dbg".
-
-# Script usage
-### lt_perf_chrome.py
-This script launches Chromium with the required terminal switches and V8 flags, and then executes
-`perf record` with the render process ID of the opened Chrome tab. Once Chrome is open, you can
-navigate to the desired website for profiling and then either close the browser or press Ctrl + C
-in the terminal. The profiling data will be saved in the specified folder (the script creates it if
-it doesn't exist), or in the current directory if no `--perf-dir=` parameter is provided.
-Additionally, the script performs post-processing of the data using `perf inject`. You also have the
-option to include additional V8, Chromium, and perf flags by using the parameters `--chrome-options=""`,
-`--js-flags=""`, and `--perf-options=""`. 
-
-If you haven't used linux perf before, running this script might take some time as perf will
-download debug information.  
-
-IMPORTANT: Please avoid opening additional tabs in the Chrome instance launched by this script, as
-it may interfere with the correct identification of the Chrome render process ID.  
-
-### Examples
-```
-./LT_perf_chrome.py --url=https://webvm.io/ --perf-dir=perf_dir
-```
-```
-./LT_perf_chrome.py --url=https://webvm.io/ --perf=/home/builds/linux-stable/tools/perf/perf --wait
-```
-```
-./LT_perf_chrome.py --url=https://webvm.io/ --perf-options="--call-graph=fp" --js-flags="--perf-prof-annotate-wasm"
-```
-
-# Cheatsheets
-### [perf_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_cheatsheet.md)
-A collection of linux perf commands with examples and explanations.
-
-### [perf_chrome_cheatsheet.md](https://github.com/leaningtech/chrome-profiling/blob/main/perf_chrome_cheatsheet.md)
-If you prefer to profile Chromium without using a script, this cheatsheet provides a step-by-step
-guide on how to profile Chromium using linux perf.
 
 # Resources
 If you want to explore the linux perf command in more depth, these resources provide in-depth
