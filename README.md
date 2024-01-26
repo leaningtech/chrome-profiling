@@ -88,8 +88,8 @@ If you are using linux perf for the first time, you may encounter an error relat
 certain kernel settings, which are also required for our custom script to work. Running the following
 commands should enable linux perf without requiring root access.
 ```
-sudo sh -c 'echo kernel.perf_event_paranoid=1 > /etc/sysctl.d/local.conf 
-sudo sh -c 'echo kernel.kptr_restrict=0 > /etc/sysctl.d/local.conf 
+sudo sh -c 'echo kernel.perf_event_paranoid=1 > /etc/sysctl.d/local.conf'
+sudo sh -c 'echo kernel.kptr_restrict=0 > /etc/sysctl.d/local.conf'
 ```
 After running these commands you should restart sysctl with this command
 `sudo sysctl -p /etc/sysctl.conf` or reboot your machine.
